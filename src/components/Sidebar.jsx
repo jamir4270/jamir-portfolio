@@ -9,7 +9,7 @@ export default function Sidebar({ activeId: activeProp }) {
   const activeId = activeProp ?? activeHook
 
   return (
-    <aside className="glass hidden h-[calc(100vh-2rem)] w-[28vw] min-w-[300px] max-w-[400px] shrink-0 flex-col rounded-[1.75rem] px-7 pb-8 pt-8 lg:flex">
+    <aside className="glass hidden h-[calc(100vh-2rem)] w-[28vw] min-w-[300px] max-w-[400px] shrink-0 flex-col overflow-y-auto rounded-[1.75rem] px-7 pb-8 pt-8 lg:flex">
       <div className="w-full">
         <ImagePlaceholder title="Jamir Andrade" hint="Portrait — 4:3" aspect="aspect-[16/10]" icon={UserRound} />
         <div className="mt-6">
@@ -21,12 +21,12 @@ export default function Sidebar({ activeId: activeProp }) {
 
       <div className="my-6 h-px shrink-0 bg-white/80" />
 
-      <div className="min-h-0 flex-1 overflow-y-auto py-1 pr-1">
+      <div className="mb-8 py-1">
         <div className="mb-3 px-4 text-xs font-bold uppercase tracking-[0.18em] text-aquaDark">Explore</div>
         <Navigation activeId={activeId} />
       </div>
 
-      <div className="shrink-0 border-t border-white/70 pt-6">
+      <div className="mt-auto shrink-0 border-t border-white/70 pt-6">
         <div className="text-xs font-bold uppercase tracking-[0.18em] text-aquaDark">Connect</div>
         <div className="mt-3 flex gap-2">
           <a className="focus-ring rounded-xl border border-transparent p-2.5 text-[#17304f] transition-all duration-300 hover:-translate-y-0.5 hover:border-white/80 hover:bg-white/70 hover:text-navy hover:shadow-md" href="#contact" aria-label="GitHub"><GithubIcon size={18} /></a>
