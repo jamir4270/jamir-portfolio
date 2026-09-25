@@ -1,5 +1,6 @@
 import { CheckCircle2 } from 'lucide-react'
 import { Section, GlassCard, ImagePlaceholder } from './UI'
+import { experience } from '../data/portfolio'
 
 const points = [
   'Server-side development with ASP.NET Core MVC',
@@ -11,10 +12,10 @@ const points = [
 ]
 const tech = ['ASP.NET Core MVC', 'CI Pipeline', 'QA Testing', 'SDLC', 'Technical Leadership']
 
-export default function ExperienceSection() {
+export function ExperienceHighlight() {
   return (
     <Section
-      id="experience"
+      id="experience-featured"
       eyebrow="Experience"
       title="Engineering in a professional team."
       lede="Summer Bridge program at Alliance Software Inc. — backend intern and technical lead in one rotation."
@@ -47,5 +48,24 @@ export default function ExperienceSection() {
         </div>
       </GlassCard>
     </Section>
+  )
+}
+
+export default function ExperienceSection() {
+  return (
+    <section id="experience" aria-label="Experience timeline" className="scroll-mt-24 py-10 sm:py-14">
+      <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-aquaDark">Experience</div>
+      <h2 className="max-w-2xl text-[clamp(1.4rem,2.5vw,1.9rem)] font-semibold leading-tight tracking-[-0.03em] text-ink">All roles at a glance.</h2>
+      <ol className="relative ml-2 mt-7 space-y-0 border-l-2 border-[#caf0f8] pl-0">
+        {experience.map((item) => (
+          <li key={`${item.role}-${item.year}`} className="group relative py-4 pl-8 first:pt-1 last:pb-1">
+            <span aria-hidden="true" className="absolute -left-[7px] top-6 size-3 rounded-full border-2 border-white bg-[#0096c7] shadow transition group-hover:scale-125" />
+            <div className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">{item.year}</div>
+            <h3 className="mt-1 font-semibold tracking-tight text-cardInk transition group-hover:text-navy">{item.role}</h3>
+            <p className="mt-1 text-[0.87rem] leading-6 text-slate-600">{item.org}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
   )
 }

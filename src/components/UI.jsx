@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { ImagePlus } from 'lucide-react'
 
-export function Section({ id, eyebrow, title, lede, children, className = '' }) {
+export function Section({ id, eyebrow, title, lede, action, children, className = '' }) {
   return (
     <motion.section
       id={id}
@@ -9,14 +9,17 @@ export function Section({ id, eyebrow, title, lede, children, className = '' }) 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.55, ease: 'easeOut' }}
-      className={`scroll-mt-24 py-14 sm:py-20 ${className}`}
+      className={`scroll-mt-24 py-10 sm:py-14 ${className}`}
     >
-      <div className="mb-8 sm:mb-10">
-        {eyebrow && (
-          <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-aquaDark">{eyebrow}</div>
-        )}
-        <h2 className="max-w-2xl text-[clamp(1.65rem,3vw,2.5rem)] font-semibold leading-tight tracking-[-0.03em] text-ink">{title}</h2>
-        {lede && <p className="mt-3 max-w-2xl text-[0.95rem] leading-7 text-slate-600">{lede}</p>}
+      <div className="mb-7 flex flex-wrap items-end justify-between gap-3 sm:mb-8">
+        <div className="min-w-0">
+          {eyebrow && (
+            <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-aquaDark">{eyebrow}</div>
+          )}
+          <h2 className="max-w-2xl text-[clamp(1.65rem,3vw,2.5rem)] font-semibold leading-tight tracking-[-0.03em] text-ink">{title}</h2>
+          {lede && <p className="mt-3 max-w-2xl text-[0.95rem] leading-7 text-slate-600">{lede}</p>}
+        </div>
+        {action && <div className="shrink-0 pb-1">{action}</div>}
       </div>
       {children}
     </motion.section>

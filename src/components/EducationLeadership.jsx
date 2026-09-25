@@ -1,44 +1,63 @@
 import { Award, BookOpenCheck, GraduationCap } from 'lucide-react'
-import { leadership, achievements } from '../data/portfolio'
-import { Section } from './UI'
+import { useState } from 'react'
+import { leadership, achievements, certifications, education } from '../data/portfolio'
+import { Section, GlassCard } from './UI'
 
 export function EducationSection() {
   return (
     <Section
+      id="education"
       eyebrow="Education"
       title="Academic foundation, applied fast."
     >
-      <div className="grid gap-10 border-t border-slate-200/70 pt-8 md:grid-cols-2">
+      <GlassCard className="p-6 sm:p-8">
         <div className="flex gap-4">
           <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-navy text-white shadow-md">
             <GraduationCap size={20} aria-hidden="true" />
           </span>
           <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">2023 — Present</div>
-            <h3 className="mt-1.5 text-lg font-semibold tracking-tight text-cardInk">BS in Computer Science</h3>
-            <p className="mt-1 text-sm text-slate-600">Visayas State University — Baybay City</p>
-            <p className="mt-3 inline-flex rounded-full bg-[#caf0f8]/60 px-3 py-1 text-xs font-semibold text-navy">DOST Undergraduate Scholar</p>
+            <div className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">{education.period}</div>
+            <h3 className="mt-1.5 text-lg font-semibold tracking-tight text-cardInk">{education.degree}</h3>
+            <p className="mt-1 text-sm text-slate-600">{education.school} — {education.location}</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {education.highlights.map((h) => (
+                <span key={h} className="rounded-full bg-[#caf0f8]/60 px-3 py-1 text-xs font-semibold text-navy">{h}</span>
+              ))}
+            </div>
           </div>
         </div>
-        <div className="flex gap-4">
-          <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white/80 text-[#0077b6] shadow-sm ring-1 ring-white">
-            <BookOpenCheck size={20} aria-hidden="true" />
-          </span>
-          <div className="w-full">
-            <div className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">Certificates</div>
-            <ul className="mt-3 divide-y divide-slate-200/70">
-              <li className="py-3 first:pt-0">
-                <div className="font-semibold text-cardInk">Introduction to Data Science</div>
-                <div className="mt-0.5 text-sm text-slate-500">CISCO Networking Academy</div>
-              </li>
-              <li className="py-3 last:pb-0">
-                <div className="font-semibold text-cardInk">Data Literacy</div>
-                <div className="mt-0.5 text-sm text-slate-500">DataCamp</div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      </GlassCard>
+    </Section>
+  )
+}
+
+export function CertificationsSection() {
+  const [expanded, setExpanded] = useState(false)
+  const visible = expanded ? certifications : certifications.slice(0, 3)
+  return (
+    <Section
+      id="certifications"
+      eyebrow="Certifications"
+      title="Credentials."
+      action={
+        certifications.length > 3 ? (
+          <button onClick={() => setExpanded((v) => !v)} className="focus-ring text-sm font-semibold text-aquaDark transition hover:text-navy">
+            {expanded ? 'Show less' : 'View All'}
+          </button>
+        ) : null
+      }
+    >
+      <ul className="divide-y divide-slate-200/70 border-y border-slate-200/70">
+        {visible.map((c) => (
+          <li key={c.title} className="group flex items-center gap-3.5 py-3.5 transition hover:bg-white/50">
+            <BookOpenCheck size={17} className="shrink-0 text-[#0077b6] transition group-hover:scale-110" aria-hidden="true" />
+            <span>
+              <span className="block text-[0.88rem] font-medium text-[#334155]">{c.title}</span>
+              <span className="mt-0.5 block text-xs text-slate-500">{c.org}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
     </Section>
   )
 }
@@ -68,14 +87,17 @@ export function LeadershipSection() {
 export function AchievementsSection() {
   return (
     <Section
-      eyebrow="Recognition"
+      eyebrow="Achievements"
       title="Proof in competition and craft."
     >
       <ul className="divide-y divide-slate-200/70 border-y border-slate-200/70">
         {achievements.map((item) => (
-          <li key={item} className="group flex items-center gap-3.5 py-3.5 transition hover:bg-white/50">
-            <Award size={17} className="shrink-0 text-[#0077b6] transition group-hover:scale-110" aria-hidden="true" />
-            <span className="text-[0.88rem] font-medium text-[#334155]">{item}</span>
+          <li key={item.title} className="group flex items-center justify-between gap-4 py-3.5 transition hover:bg-white/50">
+            <span className="flex items-center gap-3.5">
+              <Award size={17} className="shrink-0 text-[#0077b6] transition group-hover:scale-110" aria-hidden="true" />
+              <span className="text-[0.88rem] font-medium text-[#334155]">{item.title}</span>
+            </span>
+            <span className="shrink-0 text-xs font-semibold text-slate-400">{item.year}</span>
           </li>
         ))}
       </ul>

@@ -5,23 +5,13 @@ export function ScrollProgress() {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    const scroller = document.querySelector('.right-scroll')
     const onScroll = () => {
-      if (scroller && window.innerWidth >= 1024) {
-        const max = scroller.scrollHeight - scroller.clientHeight
-        setProgress(max > 0 ? scroller.scrollTop / max : 0)
-      } else {
-        const max = document.documentElement.scrollHeight - window.innerHeight
-        setProgress(max > 0 ? window.scrollY / max : 0)
-      }
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      setProgress(max > 0 ? window.scrollY / max : 0)
     }
-    scroller?.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
-    return () => {
-      scroller?.removeEventListener('scroll', onScroll)
-      window.removeEventListener('scroll', onScroll)
-    }
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
@@ -38,24 +28,12 @@ export function BackToTop() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    const scroller = document.querySelector('.right-scroll')
-    const onScroll = () => {
-      const y = scroller && window.innerWidth >= 1024 ? scroller.scrollTop : window.scrollY
-      setVisible(y > 600)
-    }
-    scroller?.addEventListener('scroll', onScroll, { passive: true })
+    const onScroll = () => setVisible(window.scrollY > 600)
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => {
-      scroller?.removeEventListener('scroll', onScroll)
-      window.removeEventListener('scroll', onScroll)
-    }
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const goTop = () => {
-    const scroller = document.querySelector('.right-scroll')
-    if (scroller && window.innerWidth >= 1024) scroller.scrollTo({ top: 0, behavior: 'smooth' })
-    else window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+  const goTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
   return (
     <button
