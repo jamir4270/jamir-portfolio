@@ -1,49 +1,46 @@
 import AmbientBackground from './components/AmbientBackground'
-import TopBar from './components/MobileHeader'
-import HeroSection from './components/HeroSection'
-import ExperienceSection, { ExperienceHighlight } from './components/ExperienceSection'
+import { HeroBlock, AboutProse } from './components/HeroSection'
+import ExperienceSection from './components/ExperienceSection'
 import ProjectsSection from './components/ProjectsSection'
 import TechStack from './components/TechStack'
 import { EducationSection, CertificationsSection, LeadershipSection, AchievementsSection } from './components/EducationLeadership'
 import { ThesisSection, RecommendationsSection, SocialLinksSection, GallerySection } from './components/ExtraSections'
 import ContactSection from './components/ContactSection'
 import { ScrollProgress, BackToTop } from './components/Chrome'
-import { useActiveSection } from './components/Navigation'
+
+function Pair({ left, right }) {
+  return (
+    <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+      <div className="md:col-span-2">{left}</div>
+      <div>{right}</div>
+    </div>
+  )
+}
 
 export default function App() {
-  const activeId = useActiveSection()
-
   return (
     <>
       <AmbientBackground />
       <ScrollProgress />
-      <TopBar activeId={activeId} />
-      <main className="mx-auto w-full max-w-[720px] px-5 sm:px-8">
-        <HeroSection />
-        <div className="h-px bg-slate-200/70" />
-        <TechStack />
-        <div className="h-px bg-slate-200/70" />
-        <ProjectsSection />
-        <div className="h-px bg-slate-200/70" />
-        <EducationSection />
-        <ExperienceHighlight />
-        <ExperienceSection />
-        <div className="h-px bg-slate-200/70" />
-        <ThesisSection />
-        <div className="h-px bg-slate-200/70" />
-        <LeadershipSection />
-        <div className="h-px bg-slate-200/70" />
-        <RecommendationsSection />
-        <div className="h-px bg-slate-200/70" />
-        <CertificationsSection />
-        <SocialLinksSection />
-        <AchievementsSection />
+      <main className="mx-auto w-full max-w-[900px] px-4 py-10">
+        <HeroBlock />
+        <Pair left={<AboutProse />} right={<EducationSection />} />
+        <Pair left={<TechStack />} right={<ExperienceSection />} />
+        <Pair left={<ProjectsSection />} right={<ThesisSection />} />
+        <Pair left={<LeadershipSection />} right={<RecommendationsSection />} />
+        <Pair
+          left={
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+              <CertificationsSection />
+              <SocialLinksSection />
+            </div>
+          }
+          right={<AchievementsSection />}
+        />
         <GallerySection />
-        <div className="h-px bg-slate-200/70" />
         <ContactSection />
-        <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200/70 py-8 text-[0.8rem] text-slate-500">
-          <span>© 2026 Jamir Oasis M. Andrade</span>
-          <span>Built with React · Tailwind · Framer Motion</span>
+        <footer className="mt-24 border-t border-slate-200/80 pt-8 text-center text-xs font-medium text-slate-500">
+          © 2026 Jamir Oasis M. Andrade. All rights reserved.
         </footer>
       </main>
       <BackToTop />

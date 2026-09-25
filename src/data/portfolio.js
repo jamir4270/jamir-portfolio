@@ -8,9 +8,18 @@ export const profile = {
 }
 
 export const aboutLong = [
-  'I am a Computer Science student at Visayas State University and a DOST Undergraduate Scholar. My work centers on a simple idea: build systems that create lasting impact, and build teams that can sustain them.',
-  'As a full-stack developer and technical lead, I build web and mobile applications across election platforms, POS and inventory systems, campus tools, and mobile utilities. My recent professional experience includes backend development with ASP.NET Core MVC and technical leadership in the Alliance Summer Bridge Training Program — covering CI pipelines, QA testing, and enterprise SDLC practices.',
-  'Beyond shipping, I lead as President of the Computer Science Students’ Society, mentor juniors in programming fundamentals, and use AI-assisted workflows to deliver faster without cutting quality.',
+  [
+    ['I am a Computer Science student at Visayas State University and a proud ', ''],
+    ['DOST Undergraduate Scholar', 'b'],
+    ['. My work centers on a simple idea: ', ''],
+    ['build systems that create lasting impact, and build teams that can sustain them.', 'i'],
+  ],
+  [
+    ['As a full-stack developer and technical lead, I build web and mobile applications across election platforms, POS and inventory systems, campus tools, and mobile utilities. My recent professional experience includes backend development with ASP.NET Core MVC and technical leadership in the Alliance Summer Bridge Training Program — covering CI pipelines, QA testing, and enterprise SDLC practices.', ''],
+  ],
+  [
+    ['Beyond shipping, I lead as President of the Computer Science Students’ Society, mentor juniors in programming fundamentals, and use AI-assisted workflows to deliver faster without cutting quality.', ''],
+  ],
 ]
 
 export const navItems = [
@@ -80,6 +89,8 @@ export const education = {
   degree: 'BS in Computer Science',
   period: '2023 — Present',
   location: 'Baybay City, Leyte',
+  headline: 'DOST Scholar',
+  subline: 'Undergraduate Scholar · Class of 2027',
   highlights: ['DOST Undergraduate Scholar', 'College Honors 2023–2024', 'CS Students’ Society President'],
 }
 
@@ -120,15 +131,15 @@ export const thesis = {
 
 export const leadership = [
   {
-    role: 'Computer Science Students’ Society President', year: '2025–Present',
+    role: 'Computer Science Students’ Society President', org: 'Computer Science Students’ Society (CS3)', year: '2025–Present',
     points: ['Departmental events', 'Delegation', 'Student officer leadership', 'Mentorship initiatives'],
   },
   {
-    role: 'Committee on Education Head', year: '2025',
+    role: 'Committee on Education Head', org: 'Computer Science Students’ Society (CS3)', year: '2025',
     points: ['Academic study groups', 'Tutoring support', 'Student/faculty liaison work'],
   },
   {
-    role: 'CS3 Mentor', year: '2024–Present',
+    role: 'CS3 Mentor', org: 'Department of Computer Science and Technology, VSU', year: '2024–Present',
     points: ['Object-Oriented Programming', 'Fundamentals of Programming', 'One-on-one tutoring', 'Hands-on coding sessions'],
   },
 ]

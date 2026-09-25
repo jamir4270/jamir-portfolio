@@ -1,57 +1,36 @@
 import { useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { projects } from '../data/portfolio'
-import { Section } from './UI'
-
-const PREVIEW_COUNT = 4
-
-function ProjectRow({ project }) {
-  return (
-    <a
-      href="#projects"
-      className="focus-ring group grid gap-4 rounded-2xl border border-transparent p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/80 hover:bg-white/55 hover:shadow-[0_16px_40px_rgba(72,202,228,0.16)] sm:grid-cols-[140px_1fr_auto] sm:items-center sm:gap-6 sm:p-5"
-    >
-      <div className="flex aspect-[16/10] w-full items-center justify-center rounded-xl border border-dashed border-[#48cae4]/50 bg-gradient-to-b from-white/80 to-[#e0f2fe]/40 p-3 text-center text-xs font-semibold text-[#23506a] sm:aspect-[4/3]">
-        {project.placeholderTitle}
-      </div>
-      <div className="min-w-0">
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h3 className="text-base font-semibold tracking-tight text-cardInk transition group-hover:text-navy">{project.title}</h3>
-        </div>
-        <p className="mt-1.5 max-w-xl text-[0.87rem] leading-6 text-slate-600">{project.description}</p>
-        <p className="mt-2 text-[0.7rem] font-bold uppercase tracking-[0.12em] text-slate-400">
-          {project.role} · {project.stack} · {project.year}
-        </p>
-      </div>
-      <span className="hidden size-10 place-items-center rounded-full border border-white/80 bg-white/60 text-[#17304f] transition-all duration-300 group-hover:border-[#0096c7]/30 group-hover:bg-navy group-hover:text-white sm:grid" aria-hidden="true">
-        <ArrowUpRight size={17} className="transition-transform duration-300 group-hover:rotate-45" />
-      </span>
-    </a>
-  )
-}
+import { GlassPill, ViewAll } from './UI'
 
 export default function ProjectsSection() {
   const [expanded, setExpanded] = useState(false)
-  const visible = expanded ? projects : projects.slice(0, PREVIEW_COUNT)
+  const visible = expanded ? projects : projects.slice(0, 4)
 
   return (
-    <Section
-      id="projects"
-      eyebrow="Selected Work"
-      title="Systems built around real workflows."
-      lede="Election platforms, POS, campus tools, and mobile apps. Screenshots to be added."
-      action={
-        <button
-          onClick={() => setExpanded((v) => !v)}
-          className="focus-ring text-sm font-semibold text-aquaDark transition hover:text-navy"
-        >
-          {expanded ? 'Show less' : `View All (${projects.length})`}
-        </button>
-      }
-    >
-      <div className="divide-y divide-slate-200/70 border-y border-slate-200/70">
-        {visible.map((project) => <ProjectRow key={project.title} project={project} />)}
+    <section id="projects" className="mb-10 scroll-mt-8">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h2 className="text-[10px] font-bold uppercase tracking-[0.12em] text-navy">Selected Work</h2>
+        <ViewAll expanded={expanded} onToggle={() => setExpanded((v) => !v)} count={projects.length} />
       </div>
-    </Section>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {visible.map((project) => (
+          <a key={project.title} href="#projects" className="focus-ring group block transition-transform duration-300 hover:translate-x-1">
+            <span className="flex items-start justify-between gap-2">
+              <h3 className="text-sm font-semibold text-cardInk transition group-hover:text-navy">{project.title}</h3>
+              <span className="grid size-6 shrink-0 place-items-center rounded-sm border border-white/80 bg-white/60 text-[#17304f] shadow-sm backdrop-blur-xl transition-all duration-300 group-hover:border-[#0096c7]/40 group-hover:bg-navy group-hover:text-white" aria-hidden="true">
+                <ArrowUpRight size={13} className="transition-transform duration-300 group-hover:rotate-45" />
+              </span>
+            </span>
+            <p className="mb-3 mt-1 text-xs leading-relaxed text-slate-500">{project.description}</p>
+            <div className="flex flex-col items-start gap-1.5">
+              <GlassPill className="!px-2 !py-0.5 !text-[10px] font-bold uppercase tracking-wide">{project.role}</GlassPill>
+              <GlassPill className="!px-2 !py-0.5 !text-[10px] font-bold uppercase tracking-wide">{project.stack}</GlassPill>
+            </div>
+          </a>
+        ))}
+      </div>
+      <hr className="my-6 border-slate-200/80" />
+    </section>
   )
 }

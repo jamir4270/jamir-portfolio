@@ -14,7 +14,7 @@ export default function AmbientBackground() {
       {nodes.map(([pos, color, size], i) => (
         <motion.div
           key={i}
-          className={`absolute rounded-full opacity-55 ${pos}`}
+          className={`absolute rounded-full opacity-35 ${pos}`}
           style={{ width: size, height: size, background: color, filter: 'blur(110px)' }}
           animate={{ x: [0, 18, -10, 0], y: [0, -14, 12, 0], scale: [1, 1.04, 0.98, 1] }}
           transition={{ duration: 28 + i * 6, repeat: Infinity, ease: 'easeInOut' }}
