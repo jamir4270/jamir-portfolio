@@ -4,7 +4,7 @@ export const profile = {
   roles: 'Full-Stack Developer / Technical Lead / Mentor',
   email: 'jamirandrade4270@gmail.com',
   cvUrl: '/Andrade_Resume.pdf',
-  badge: 'DOST Scholar · Class of 2027',
+  badge: 'DOST Scholar · Since 2023',
   photo: '/images/profile.jpg',
 }
 
@@ -139,7 +139,7 @@ export const education = {
   period: '2023 — Present',
   location: 'Baybay City, Leyte',
   headline: 'DOST Scholar',
-  subline: 'Undergraduate Scholar · Class of 2027',
+  subline: 'Undergraduate Scholar since 2023 · Class of 2027',
   highlights: ['DOST Undergraduate Scholar', 'College Honors 2023–2024', 'CS Students’ Society President'],
 }
 
