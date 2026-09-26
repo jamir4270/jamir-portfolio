@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Mail } from 'lucide-react'
 import { GithubIcon, LinkedinIcon } from './BrandIcons'
 import { thesis, recommendations, socials, gallery } from '../data/portfolio'
-import { ViewAll } from './UI'
+import { Lightbox, ViewAll } from './UI'
 
 export function ThesisSection() {
   return (
@@ -130,20 +130,28 @@ export function SocialLinksSection() {
 
 export function GallerySection() {
   const trackRef = useRef(null)
+  const [zoomed, setZoomed] = useState(null)
   const scrollBy = (dir) => trackRef.current?.scrollBy({ left: dir * 320, behavior: 'smooth' })
+  const step = (dir) => setZoomed((i) => (i === null ? i : (i + dir + gallery.length) % gallery.length))
+  const current = zoomed === null ? null : gallery[zoomed]
   return (
     <section className="mb-10">
       <h2 className="mb-4 text-[10px] font-bold uppercase tracking-[0.12em] text-navy">Gallery</h2>
       <div className="group relative">
         <div ref={trackRef} className="scrollbar-hide flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1">
-          {gallery.map((g) => (
-            <figure key={g.title} className="relative h-[150px] w-[240px] shrink-0 snap-start overflow-hidden rounded-sm border border-white/60 bg-white/50">
+          {gallery.map((g, i) => (
+            <button
+              key={g.title}
+              onClick={() => setZoomed(i)}
+              className="focus-ring relative h-[150px] w-[240px] shrink-0 snap-start overflow-hidden rounded-sm border border-white/60 bg-white/50 transition hover:shadow-md"
+              aria-label={`Enlarge ${g.title}`}
+            >
               <img src={g.image} alt={g.title} loading="lazy" className="h-full w-full object-cover" />
-              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/85 to-transparent px-2.5 pb-1.5 pt-6 text-left">
-                <div className="text-[11px] font-semibold text-white">{g.title}</div>
-                {g.hint && <div className="text-[10px] text-slate-200">{g.hint}</div>}
-              </figcaption>
-            </figure>
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/85 to-transparent px-2.5 pb-1.5 pt-6 text-left">
+                <span className="block text-[11px] font-semibold text-white">{g.title}</span>
+                {g.hint && <span className="block text-[10px] text-slate-200">{g.hint}</span>}
+              </span>
+            </button>
           ))}
         </div>
         <button onClick={() => scrollBy(-1)} aria-label="Scroll gallery left" className="absolute left-2 top-1/2 -translate-y-1/2 border border-white/80 bg-white/80 p-1 text-navy opacity-70 shadow-md backdrop-blur-xl transition hover:opacity-100">
@@ -153,6 +161,20 @@ export function GallerySection() {
           <ChevronRight size={16} />
         </button>
       </div>
+      <AnimatePresence>
+        {current && (
+          <Lightbox
+            src={current.image}
+            alt={current.title}
+            title={current.title}
+            subtitle={current.hint}
+            position={gallery.length > 1 ? `${zoomed + 1} / ${gallery.length}` : undefined}
+            onClose={() => setZoomed(null)}
+            onPrev={gallery.length > 1 ? () => step(-1) : undefined}
+            onNext={gallery.length > 1 ? () => step(1) : undefined}
+          />
+        )}
+      </AnimatePresence>
       <hr className="my-6 border-slate-200/80" />
     </section>
   )

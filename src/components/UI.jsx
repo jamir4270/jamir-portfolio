@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion'
-import { ChevronRight, ImagePlus } from 'lucide-react'
+import { useCallback, useEffect } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { ChevronLeft, ChevronRight, ImagePlus, X } from 'lucide-react'
 
 export function Section({ id, eyebrow, title, action, children, className = '' }) {
   return (
@@ -49,7 +50,7 @@ export function GlassPill({ children, className = '' }) {
   )
 }
 
-export function GlassButton({ href, icon: Icon, children, primary = false, type, onClick }) {
+export function GlassButton({ href, target, rel, icon: Icon, children, primary = false, type, onClick }) {
   const base =
     'focus-ring group relative inline-flex items-center justify-center gap-1.5 overflow-hidden whitespace-nowrap rounded-sm border px-2.5 py-2 text-xs font-semibold transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0'
   const skin = primary
@@ -63,8 +64,92 @@ export function GlassButton({ href, icon: Icon, children, primary = false, type,
       <span className="relative z-10 inline-flex items-center gap-1 whitespace-nowrap [&>svg]:shrink-0">{children}</span>
     </>
   )
-  if (href) return <a href={href} className={cls}>{inner}</a>
+  if (href) return <a href={href} target={target} rel={rel} className={cls}>{inner}</a>
   return <button type={type || 'button'} onClick={onClick} className={cls}>{inner}</button>
+}
+
+export function Reveal({ children, className = '', delay = 0 }) {
+  const reduce = useReducedMotion()
+  if (reduce) return <div className={className}>{children}</div>
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.55, ease: 'easeOut', delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+export function Lightbox({ src, alt, title, subtitle, children, onClose, onPrev, onNext, position }) {
+  const close = useCallback(() => onClose?.(), [onClose])
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') close()
+      if (e.key === 'ArrowLeft') onPrev?.()
+      if (e.key === 'ArrowRight') onNext?.()
+    }
+    window.addEventListener('keydown', onKey)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prevOverflow
+    }
+  }, [close, onPrev, onNext])
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-navy/70 p-4 backdrop-blur-md"
+      onClick={close}
+      role="dialog"
+      aria-modal="true"
+      aria-label={title || alt || 'Enlarged image'}
+    >
+      {(onPrev || onNext) && (
+        <div className="pointer-events-none absolute inset-x-4 top-1/2 z-10 flex -translate-y-1/2 justify-between sm:inset-x-8">
+          {onPrev ? (
+            <button onClick={(e) => { e.stopPropagation(); onPrev() }} aria-label="Previous image" className="focus-ring pointer-events-auto grid size-10 place-items-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-xl transition hover:bg-white/25">
+              <ChevronLeft size={20} />
+            </button>
+          ) : <span />}
+          {onNext ? (
+            <button onClick={(e) => { e.stopPropagation(); onNext() }} aria-label="Next image" className="focus-ring pointer-events-auto grid size-10 place-items-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-xl transition hover:bg-white/25">
+              <ChevronRight size={20} />
+            </button>
+          ) : <span />}
+        </div>
+      )}
+      <button onClick={close} aria-label="Close enlarged image" className="focus-ring absolute right-4 top-4 z-10 grid size-10 place-items-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-xl transition hover:bg-white/25">
+        <X size={20} />
+      </button>
+      <motion.figure
+        initial={{ opacity: 0, scale: 0.96, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        className="glass-strong max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-md p-4 sm:p-5"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <img src={src} alt={alt || title || 'Enlarged image'} className="max-h-[62vh] w-full rounded-sm object-contain" />
+        {(title || subtitle) && (
+          <figcaption className="mt-3 text-center">
+            {title && <div className="text-sm font-semibold text-navy">{title}</div>}
+            {subtitle && <div className="mt-0.5 text-xs text-slate-500">{subtitle}</div>}
+            {position && <div className="mt-1 text-[11px] font-medium text-slate-400">{position}</div>}
+          </figcaption>
+        )}
+        {children && <div className="mt-3">{children}</div>}
+      </motion.figure>
+    </motion.div>
+  )
 }
 
 export function ImagePlaceholder({ title, hint, aspect = 'aspect-video', icon: Icon = ImagePlus, className = '' }) {

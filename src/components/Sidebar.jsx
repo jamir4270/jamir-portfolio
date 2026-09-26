@@ -1,7 +1,10 @@
+import { useState } from 'react'
+import { AnimatePresence } from 'framer-motion'
 import { Mail } from 'lucide-react'
 import { GithubIcon, LinkedinIcon } from './BrandIcons'
 import Navigation from './Navigation'
 import { socials, profile } from '../data/portfolio'
+import { Lightbox } from './UI'
 import { useActiveSection } from './Navigation'
 
 const socialIcons = { GitHub: GithubIcon, LinkedIn: LinkedinIcon, Email: Mail }
@@ -9,13 +12,24 @@ const socialIcons = { GitHub: GithubIcon, LinkedIn: LinkedinIcon, Email: Mail }
 export default function Sidebar({ activeId: activeProp }) {
   const activeHook = useActiveSection()
   const activeId = activeProp ?? activeHook
+  const [zoomed, setZoomed] = useState(false)
 
   return (
     <aside className="glass hidden h-[calc(100vh-2rem)] w-[28vw] min-w-[300px] max-w-[400px] shrink-0 flex-col overflow-y-auto rounded-[1.75rem] px-7 pb-8 pt-8 lg:flex">
       <div className="w-full">
-        <div className="glass aspect-[16/10] w-full overflow-hidden rounded-sm">
+        <button onClick={() => setZoomed(true)} className="focus-ring glass block aspect-[16/10] w-full overflow-hidden rounded-sm" aria-label="Enlarge portrait of Jamir Andrade">
           <img src={profile.photo} alt="Jamir Andrade portrait" className="h-full w-full object-cover" />
-        </div>
+        </button>
+        <AnimatePresence>
+          {zoomed && (
+            <Lightbox
+              src={profile.photo}
+              alt="Jamir Andrade portrait"
+              title="Jamir Oasis M. Andrade"
+              onClose={() => setZoomed(false)}
+            />
+          )}
+        </AnimatePresence>
         <div className="mt-6">
           <div className="text-[1.5rem] font-semibold leading-tight tracking-[-0.03em] text-navy">Jamir Oasis<br />M. Andrade</div>
           <div className="mt-2 text-sm font-semibold text-[#17304f]">Full-Stack Developer · Technical Lead</div>
