@@ -15,11 +15,11 @@ npm run dev
 npm run build
 ```
 
-## Replace placeholders
+## Content & assets
 
-- Replace `ImagePlaceholder` instances with real `<img>` elements when assets are ready.
-- Add real GitHub and LinkedIn URLs in `src/components/Sidebar.jsx`.
-- Connect the contact form in `src/components/ContactSection.jsx` to a backend or form service.
+- All portfolio content lives in `src/data/portfolio.js` (projects, experience, recommendations, certs, socials, gallery).
+- Images live in `public/images/` (`profile.jpg`, `projects/*.png|jpg|webp`, `gallery/*.jpg|png`). CV at `public/Andrade_Resume.pdf`.
+- Contact form uses EmailJS (`@emailjs/browser`) — copy `.env.example` to `.env.local` and set `VITE_EMAILJS_*` keys.
 
 ## Main structure
 

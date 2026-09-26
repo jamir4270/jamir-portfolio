@@ -1,12 +1,18 @@
 import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 import { Check, Copy, Mail, MapPin, Phone, Send } from 'lucide-react'
 import { GlassButton, GlassRow } from './UI'
 
 const EMAIL = 'jamirandrade4270@gmail.com'
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_2seql8h'
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_ct9on0j'
+const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'ZSFD1S1X4KVDAbQue'
 
 export default function ContactSection() {
   const [copied, setCopied] = useState(false)
   const [status, setStatus] = useState('idle')
+  const [error, setError] = useState('')
+  const [form, setForm] = useState({ name: '', email: '', message: '' })
 
   const copyEmail = async () => {
     try {
@@ -23,11 +29,23 @@ export default function ContactSection() {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
     if (status === 'sending') return
     setStatus('sending')
-    setTimeout(() => setStatus('sent'), 900)
+    setError('')
+    try {
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        { name: form.name, email: form.email, reply_to: form.email, message: form.message, to_email: EMAIL },
+        { publicKey: PUBLIC_KEY },
+      )
+      setStatus('sent')
+    } catch {
+      setStatus('error')
+      setError('Could not send via the form service — email me directly instead.')
+    }
   }
 
   const inputCls =
@@ -72,26 +90,32 @@ export default function ContactSection() {
           {status === 'sent' ? (
             <div className="flex min-h-[260px] flex-col items-center justify-center text-center">
               <span className="grid size-10 place-items-center rounded-full bg-emerald-500/15 text-emerald-600"><Check size={20} /></span>
-              <h3 className="mt-3 text-sm font-semibold text-navy">Message ready to send</h3>
-              <p className="mt-2 max-w-sm text-xs leading-6 text-slate-600">This demo form doesn&rsquo;t deliver yet — email me directly at {EMAIL} and I&rsquo;ll reply quickly.</p>
-              <button onClick={() => setStatus('idle')} className="focus-ring mt-4 text-xs font-semibold text-aquaDark hover:text-navy">Write another →</button>
+              <h3 className="mt-3 text-sm font-semibold text-navy">Message sent</h3>
+              <p className="mt-2 max-w-sm text-xs leading-6 text-slate-600">Thanks {form.name ? `${form.name},` : ''} — your message is on its way. I&rsquo;ll reply to you shortly at {form.email || EMAIL}.</p>
+              <button onClick={() => { setStatus('idle'); setForm({ name: '', email: '', message: '' }) }} className="focus-ring mt-4 text-xs font-semibold text-aquaDark hover:text-navy">Write another →</button>
             </div>
           ) : (
             <form onSubmit={submit} className="space-y-3" aria-label="Contact form">
               <div className="grid gap-3 sm:grid-cols-2">
                 <label className="block">
                   <span className="mb-1.5 block text-[11px] font-semibold text-[#24364f]">Name</span>
-                  <input className={inputCls} placeholder="Your name" name="name" required />
+                  <input className={inputCls} placeholder="Your name" name="name" required value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
                 </label>
                 <label className="block">
                   <span className="mb-1.5 block text-[11px] font-semibold text-[#24364f]">Email</span>
-                  <input type="email" className={inputCls} placeholder="you@example.com" name="email" required />
+                  <input type="email" className={inputCls} placeholder="you@example.com" name="email" required value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
                 </label>
               </div>
               <label className="block">
                 <span className="mb-1.5 block text-[11px] font-semibold text-[#24364f]">Message</span>
-                <textarea rows="4" className={`${inputCls} resize-y`} placeholder="Tell me about the project or opportunity." name="message" required />
+                <textarea rows="4" className={`${inputCls} resize-y`} placeholder="Tell me about the project or opportunity." name="message" required value={form.message} onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))} />
               </label>
+              {status === 'error' && (
+                <p className="text-xs leading-5 text-red-600">
+                  {error}{' '}
+                  <a href={`mailto:${EMAIL}`} className="font-semibold underline hover:text-navy">{EMAIL}</a>
+                </p>
+              )}
               <div className="pt-1">
                 <GlassButton type="submit" icon={Send} primary>{status === 'sending' ? 'Sending…' : 'Send Message'}</GlassButton>
               </div>

@@ -9,11 +9,13 @@ export function EducationSection() {
   return (
     <section id="education" className="mb-10 scroll-mt-8">
       <h2 className="mb-4 text-[10px] font-bold uppercase tracking-[0.12em] text-navy">Education</h2>
-      <div className="glass grid h-[50px] w-fit place-items-center rounded-sm px-4 text-xs font-bold tracking-wide text-navy">
-        VSU · Visayas State University
+      <div className="flex items-center gap-3">
+        <img src="/assets/vsu-light.png" alt="Visayas State University logo" className="size-12 shrink-0 rounded-sm object-contain" loading="lazy" />
+        <div>
+          <h3 className="text-sm font-semibold text-cardInk">{education.school}</h3>
+          <p className="text-xs text-slate-500">{education.degree}</p>
+        </div>
       </div>
-      <h3 className="mt-3 text-sm font-semibold text-cardInk">{education.school}</h3>
-      <p className="text-xs text-slate-500">{education.degree}</p>
       <p className="mt-4 text-2xl font-bold tracking-tight text-navy">{education.headline}</p>
       <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-emerald-600">{education.subline}</p>
       <div className="mt-4 grid gap-2">
@@ -44,10 +46,16 @@ export function CertificationsSection() {
       <ul className="space-y-2">
         {visible.map((c) => (
           <li key={c.title}>
-            <a href="#certifications" className="focus-ring group flex items-center justify-between gap-3 text-xs text-[#334155] transition-transform duration-300 hover:translate-x-1 hover:text-navy">
-              <span>{c.title} <span className="text-slate-400">· {c.org}</span></span>
-              <span className="text-xs text-slate-400 transition group-hover:text-navy" aria-hidden="true">↗</span>
-            </a>
+            {c.href ? (
+              <a href={c.href} target="_blank" rel="noreferrer" className="focus-ring group flex items-center justify-between gap-3 text-xs text-[#334155] transition-transform duration-300 hover:translate-x-1 hover:text-navy">
+                <span>{c.title} <span className="text-slate-400">· {c.org}</span></span>
+                <span className="text-xs text-slate-400 transition group-hover:text-navy" aria-hidden="true">↗</span>
+              </a>
+            ) : (
+              <span className="flex items-center justify-between gap-3 text-xs text-[#334155]">
+                <span>{c.title} <span className="text-slate-400">· {c.org}</span></span>
+              </span>
+            )}
             <hr className="my-2 border-slate-200/70" />
           </li>
         ))}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
+import { GithubIcon } from './BrandIcons'
 import { projects } from '../data/portfolio'
 import { GlassPill, ViewAll } from './UI'
 
@@ -15,19 +16,54 @@ export default function ProjectsSection() {
       </div>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {visible.map((project) => (
-          <a key={project.title} href="#projects" className="focus-ring group block transition-transform duration-300 hover:translate-x-1">
+          <article key={project.title} className="group">
+            {project.image && (
+              <div className="glass mb-3 overflow-hidden rounded-sm">
+                <img
+                  src={project.image}
+                  alt={`${project.title} screenshot`}
+                  loading="lazy"
+                  className="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                />
+              </div>
+            )}
             <span className="flex items-start justify-between gap-2">
-              <h3 className="text-sm font-semibold text-cardInk transition group-hover:text-navy">{project.title}</h3>
-              <span className="grid size-6 shrink-0 place-items-center rounded-sm border border-white/80 bg-white/60 text-[#17304f] shadow-sm backdrop-blur-xl transition-all duration-300 group-hover:border-[#0096c7]/40 group-hover:bg-navy group-hover:text-white" aria-hidden="true">
-                <ArrowUpRight size={13} className="transition-transform duration-300 group-hover:rotate-45" />
-              </span>
+              <h3 className="text-sm font-semibold text-cardInk transition group-hover:text-navy">
+                {project.title}
+                <span className="ml-2 text-[11px] font-normal text-slate-400">{project.year}</span>
+              </h3>
+              {project.demoUrl ? (
+                <a href={project.demoUrl} target="_blank" rel="noreferrer" aria-label={`${project.title} live link`} className="focus-ring grid size-6 shrink-0 place-items-center rounded-sm border border-white/80 bg-white/60 text-[#17304f] shadow-sm backdrop-blur-xl transition-all duration-300 group-hover:border-[#0096c7]/40 group-hover:bg-navy group-hover:text-white">
+                  <ArrowUpRight size={13} className="transition-transform duration-300 group-hover:rotate-45" />
+                </a>
+              ) : project.githubUrl ? (
+                <a href={project.githubUrl} target="_blank" rel="noreferrer" aria-label={`${project.title} repo link`} className="focus-ring grid size-6 shrink-0 place-items-center rounded-sm border border-white/80 bg-white/60 text-[#17304f] shadow-sm backdrop-blur-xl transition-all duration-300 group-hover:border-[#0096c7]/40 group-hover:bg-navy group-hover:text-white">
+                  <ArrowUpRight size={13} className="transition-transform duration-300 group-hover:rotate-45" />
+                </a>
+              ) : null}
             </span>
             <p className="mb-3 mt-1 text-xs leading-relaxed text-slate-500">{project.description}</p>
-            <div className="flex flex-col items-start gap-1.5">
+            <div className="mb-3 flex flex-col items-start gap-1.5">
               <GlassPill className="!px-2 !py-0.5 !text-[10px] font-bold uppercase tracking-wide">{project.role}</GlassPill>
               <GlassPill className="!px-2 !py-0.5 !text-[10px] font-bold uppercase tracking-wide">{project.stack}</GlassPill>
             </div>
-          </a>
+            {(project.githubUrl || project.demoUrl) && (
+              <div className="flex flex-wrap gap-2">
+                {project.githubUrl && (
+                  <a href={project.githubUrl} target="_blank" rel="noreferrer" className="focus-ring inline-flex items-center gap-1.5 rounded-sm border border-white/80 bg-white/60 px-2 py-1 text-[11px] font-semibold text-[#17304f] transition hover:-translate-y-px hover:bg-navy hover:text-white">
+                    <GithubIcon size={12} aria-hidden="true" />
+                    GitHub
+                  </a>
+                )}
+                {project.demoUrl && (
+                  <a href={project.demoUrl} target="_blank" rel="noreferrer" className="focus-ring inline-flex items-center gap-1 rounded-sm border border-white/80 bg-white/60 px-2 py-1 text-[11px] font-semibold text-[#17304f] transition hover:-translate-y-px hover:bg-navy hover:text-white">
+                    {project.demoLabel || 'Live Demo'}
+                    <ArrowUpRight size={12} aria-hidden="true" />
+                  </a>
+                )}
+              </div>
+            )}
+          </article>
         ))}
       </div>
       <hr className="my-6 border-slate-200/80" />

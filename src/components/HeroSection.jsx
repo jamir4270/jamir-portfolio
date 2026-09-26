@@ -1,4 +1,4 @@
-import { ArrowRight, BadgeCheck, ChevronDown, Download, Mail, MapPin, Trophy, UserRound } from 'lucide-react'
+import { ArrowRight, BadgeCheck, ChevronDown, Download, Mail, MapPin, Trophy } from 'lucide-react'
 import { GlassButton } from './UI'
 import { profile, aboutLong } from '../data/portfolio'
 
@@ -6,8 +6,8 @@ export function HeroBlock() {
   return (
     <section id="about" className="mb-10 scroll-mt-8 pt-10">
       <div className="flex flex-col gap-6 md:flex-row md:items-start">
-        <div className="glass grid aspect-[4/5] w-28 shrink-0 place-items-center overflow-hidden rounded-sm shadow-sm sm:w-32 md:w-36">
-          <UserRound size={36} className="text-[#0077b6]" aria-hidden="true" />
+        <div className="glass aspect-[4/5] w-28 shrink-0 overflow-hidden rounded-sm shadow-sm sm:w-32 md:w-36">
+          <img src={profile.photo} alt={`${profile.name} portrait`} className="h-full w-full object-cover" />
         </div>
         <div className="min-w-0 flex-1">
           <div className="mb-1 flex items-start justify-between gap-3">
