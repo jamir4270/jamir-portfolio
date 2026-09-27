@@ -10,10 +10,15 @@
   background: #fff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --lift: -3px;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
 body { margin: 0; min-width: 320px; min-height: 100vh; background: #fff; }
 a { color: inherit; }
 button, input, textarea { font: inherit; }
@@ -62,6 +67,36 @@ button, input, textarea { font: inherit; }
 .hero-title {
   text-shadow: 0 1px 0 rgba(255,255,255,0.8), 0 6px 22px rgba(3,4,94,0.10);
 }
+
+.spotlight-sheen {
+  background: radial-gradient(240px circle at var(--mx, -400px) var(--my, -400px), rgba(255,255,255,0.38), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+*:hover > .spotlight-sheen, div:hover > .spotlight-sheen { opacity: 1; }
+.spotlight-dark {
+  background: radial-gradient(280px circle at var(--mx, -400px) var(--my, -400px), rgba(72,202,228,0.22), transparent 65%);
+}
+
+.thesis-sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 42%, rgba(255,255,255,0.14) 50%, transparent 58%);
+  transform: translateX(-130%);
+  animation: thesis-sweep 7s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes thesis-sweep {
+  0%, 55% { transform: translateX(-130%); }
+  85%, 100% { transform: translateX(130%); }
+}
+
+.gallery-mask {
+  mask-image: linear-gradient(to right, transparent 0, black 28px, black calc(100% - 28px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 28px, black calc(100% - 28px), transparent 100%);
+}
+
+.ease-premium { transition-timing-function: var(--ease-premium); }
 
 .scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }

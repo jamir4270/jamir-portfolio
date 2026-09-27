@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import emailjs from '@emailjs/browser'
-import { Check, Copy, Mail, MapPin, Phone, Send } from 'lucide-react'
-import { GlassButton, GlassRow } from './UI'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Check, Copy, Loader2, Mail, MapPin, Phone, Send } from 'lucide-react'
+import { DUR, EASE } from './motion'
+import { GlassButton, GlassRow, Magnetic, Spotlight } from './UI'
 
 const EMAIL = 'jamirandrade4270@gmail.com'
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_2seql8h'
@@ -86,16 +88,40 @@ export default function ContactSection() {
           </button>
         </div>
 
-        <div className="glass rounded-sm p-5">
+        <Spotlight className="glass rounded-sm p-5">
+          <AnimatePresence mode="wait" initial={false}>
           {status === 'sent' ? (
-            <div className="flex min-h-[260px] flex-col items-center justify-center text-center">
-              <span className="grid size-10 place-items-center rounded-full bg-emerald-500/15 text-emerald-600"><Check size={20} /></span>
+            <motion.div
+              key="sent"
+              initial={{ opacity: 0, scale: 0.96, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: DUR.base, ease: EASE }}
+              className="flex min-h-[260px] flex-col items-center justify-center text-center"
+            >
+              <motion.span
+                initial={{ scale: 0.6, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 320, damping: 20, delay: 0.05 }}
+                className="grid size-10 place-items-center rounded-full bg-emerald-500/15 text-emerald-600"
+              >
+                <Check size={20} />
+              </motion.span>
               <h3 className="mt-3 text-sm font-semibold text-navy">Message sent</h3>
               <p className="mt-2 max-w-sm text-xs leading-6 text-slate-600">Thanks {form.name ? `${form.name},` : ''} — your message is on its way. I&rsquo;ll reply to you shortly at {form.email || EMAIL}.</p>
-              <button onClick={() => { setStatus('idle'); setForm({ name: '', email: '', message: '' }) }} className="focus-ring mt-4 text-xs font-semibold text-aquaDark hover:text-navy">Write another →</button>
-            </div>
+              <button onClick={() => { setStatus('idle'); setForm({ name: '', email: '', message: '' }) }} className="focus-ring mt-4 text-xs font-semibold text-aquaDark transition hover:text-navy">Write another →</button>
+            </motion.div>
           ) : (
-            <form onSubmit={submit} className="space-y-3" aria-label="Contact form">
+            <motion.form
+              key="form"
+              onSubmit={submit}
+              className="space-y-3"
+              aria-label="Contact form"
+              initial={{ opacity: 0 }}
+              animate={status === 'error' ? { opacity: 1, x: [0, -6, 6, -3, 0] } : { opacity: 1, x: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: DUR.short }}
+            >
               <div className="grid gap-3 sm:grid-cols-2">
                 <label className="block">
                   <span className="mb-1.5 block text-[11px] font-semibold text-[#24364f]">Name</span>
@@ -117,11 +143,16 @@ export default function ContactSection() {
                 </p>
               )}
               <div className="pt-1">
-                <GlassButton type="submit" icon={Send} primary>{status === 'sending' ? 'Sending…' : 'Send Message'}</GlassButton>
+                <Magnetic strength={14}>
+                  <GlassButton type="submit" icon={status === 'sending' ? Loader2 : Send} primary disabled={status === 'sending'}>
+                    {status === 'sending' ? 'Sending…' : 'Send Message'}
+                  </GlassButton>
+                </Magnetic>
               </div>
-            </form>
+            </motion.form>
           )}
-        </div>
+          </AnimatePresence>
+        </Spotlight>
       </div>
       <hr className="my-6 border-slate-200/80" />
     </section>

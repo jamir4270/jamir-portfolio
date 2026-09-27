@@ -13,6 +13,7 @@
     "@vitejs/plugin-react": "latest",
     "autoprefixer": "latest",
     "framer-motion": "latest",
+    "lenis": "^1.3.26",
     "lucide-react": "latest",
     "postcss": "latest",
     "react": "latest",

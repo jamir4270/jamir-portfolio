@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { skills } from '../data/portfolio'
-import { GlassPill, ViewAll } from './UI'
+import { DUR, EASE } from './motion'
+import { Expand, GlassPill, ViewAll } from './UI'
 
 export default function TechStack() {
   const [expanded, setExpanded] = useState(false)
@@ -12,16 +14,38 @@ export default function TechStack() {
         <ViewAll expanded={expanded} onToggle={() => setExpanded((v) => !v)} />
       </div>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        {Object.entries(skills).map(([group, items]) => (
-          <div key={group}>
-            <div className="mb-2 text-xs font-semibold text-cardInk">{group}</div>
-            <div className="flex flex-wrap gap-2">
-              {(expanded ? items : items.slice(0, 6)).map((item) => (
-                <GlassPill key={item}>{item}</GlassPill>
-              ))}
+        {Object.entries(skills).map(([group, items]) => {
+          const base = items.slice(0, 6)
+          const rest = items.slice(6)
+          return (
+            <div key={group}>
+              <div className="mb-2 text-xs font-semibold text-cardInk">{group}</div>
+              <div className="flex flex-wrap gap-2">
+                {base.map((item) => (
+                  <GlassPill key={item}>{item}</GlassPill>
+                ))}
+              </div>
+              {rest.length > 0 && (
+                <Expand open={expanded}>
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    <AnimatePresence initial={false}>
+                      {expanded && rest.map((item, i) => (
+                        <motion.span
+                          key={item}
+                          initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          transition={{ duration: DUR.short, ease: EASE, delay: i * 0.04 }}
+                        >
+                          <GlassPill>{item}</GlassPill>
+                        </motion.span>
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                </Expand>
+              )}
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
       <hr className="my-6 border-slate-200/80" />
     </section>

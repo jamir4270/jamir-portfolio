@@ -1,7 +1,9 @@
 import { Landmark, Star, Trophy } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { leadership, achievements, certifications, education } from '../data/portfolio'
-import { GlassRow, ViewAll } from './UI'
+import { DUR, EASE } from './motion'
+import { Expand, GlassRow, ViewAll } from './UI'
 
 const highlightIcons = [Star, Landmark, Trophy]
 
@@ -36,7 +38,23 @@ export function EducationSection() {
 
 export function CertificationsSection() {
   const [expanded, setExpanded] = useState(false)
-  const visible = expanded ? certifications : certifications.slice(0, 3)
+  const base = certifications.slice(0, 3)
+  const rest = certifications.slice(3)
+  const row = (c) => (
+    <>
+      {c.href ? (
+        <a href={c.href} target="_blank" rel="noreferrer" className="focus-ring group flex items-center justify-between gap-3 text-xs text-[#334155] transition-all duration-300 ease-out hover:translate-x-1 hover:text-navy">
+          <span>{c.title} <span className="text-slate-400">· {c.org}</span></span>
+          <span className="text-xs text-slate-400 transition-all duration-300 group-hover:translate-x-[1px] group-hover:text-navy" aria-hidden="true">↗</span>
+        </a>
+      ) : (
+        <span className="flex items-center justify-between gap-3 text-xs text-[#334155]">
+          <span>{c.title} <span className="text-slate-400">· {c.org}</span></span>
+        </span>
+      )}
+      <hr className="my-2 border-slate-200/70" />
+    </>
+  )
   return (
     <section id="certifications" className="mb-10 scroll-mt-8">
       <div className="mb-4 flex items-center justify-between gap-3">
@@ -44,22 +62,24 @@ export function CertificationsSection() {
         {certifications.length > 3 && <ViewAll expanded={expanded} onToggle={() => setExpanded((v) => !v)} />}
       </div>
       <ul className="space-y-2">
-        {visible.map((c) => (
-          <li key={c.title}>
-            {c.href ? (
-              <a href={c.href} target="_blank" rel="noreferrer" className="focus-ring group flex items-center justify-between gap-3 text-xs text-[#334155] transition-transform duration-300 hover:translate-x-1 hover:text-navy">
-                <span>{c.title} <span className="text-slate-400">· {c.org}</span></span>
-                <span className="text-xs text-slate-400 transition group-hover:text-navy" aria-hidden="true">↗</span>
-              </a>
-            ) : (
-              <span className="flex items-center justify-between gap-3 text-xs text-[#334155]">
-                <span>{c.title} <span className="text-slate-400">· {c.org}</span></span>
-              </span>
-            )}
-            <hr className="my-2 border-slate-200/70" />
-          </li>
+        {base.map((c) => (
+          <li key={c.title}>{row(c)}</li>
         ))}
       </ul>
+      <Expand open={expanded}>
+        <ul className="space-y-2">
+          {expanded && rest.map((c, i) => (
+            <motion.li
+              key={c.title}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: DUR.short, ease: EASE, delay: i * 0.05 }}
+            >
+              {row(c)}
+            </motion.li>
+          ))}
+        </ul>
+      </Expand>
       <hr className="my-6 border-slate-200/80" />
     </section>
   )
