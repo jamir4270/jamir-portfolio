@@ -13,4 +13,7 @@ export const DIST = {
 }
 
 export const SPRING_SOFT = { type: 'spring', stiffness: 250, damping: 24 }
+// iOS-like springs: critically damped, no overshoot. SPRING for content, SNAP for controls.
+export const SPRING = { type: 'spring', stiffness: 260, damping: 32, mass: 1 }
+export const SNAP = { type: 'spring', stiffness: 520, damping: 42, mass: 0.8 }
 export const SPRING_SMOOTH = { type: 'spring', stiffness: 120, damping: 28 }

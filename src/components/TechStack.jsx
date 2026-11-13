@@ -8,9 +8,9 @@ export default function TechStack() {
   const [expanded, setExpanded] = useState(false)
 
   return (
-    <section id="stack" className="mb-10 scroll-mt-8">
+    <section id="stack" className="mb-10 scroll-mt-24">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <h2 className="text-[10px] font-bold uppercase tracking-[0.12em] text-navy">Tech Stack</h2>
+        <h2 className="text-xs font-bold uppercase tracking-[0.12em] text-navy">Tech Stack</h2>
         <ViewAll expanded={expanded} onToggle={() => setExpanded((v) => !v)} />
       </div>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -19,7 +19,7 @@ export default function TechStack() {
           const rest = items.slice(6)
           return (
             <div key={group}>
-              <div className="mb-2 text-xs font-semibold text-cardInk">{group}</div>
+              <div className="mb-2 text-sm font-semibold text-cardInk">{group}</div>
               <div className="flex flex-wrap gap-2">
                 {base.map((item) => (
                   <GlassPill key={item}>{item}</GlassPill>

@@ -8,6 +8,7 @@ import { EducationSection, CertificationsSection, LeadershipSection, Achievement
 import { ThesisSection, RecommendationsSection, SocialLinksSection, GallerySection } from './components/ExtraSections'
 import ContactSection from './components/ContactSection'
 import { ScrollProgress, BackToTop } from './components/Chrome'
+import TopBar from './components/MobileHeader'
 import { Reveal, StaggerGroup, StaggerItem } from './components/UI'
 
 function Pair({ left, right }) {
@@ -25,6 +26,7 @@ export default function App() {
       <SmoothScroll />
       <AmbientBackground />
       <ScrollProgress />
+      <TopBar />
       <main className="mx-auto w-full max-w-[900px] px-4 py-10">
         <HeroBlock />
         <Pair left={<AboutProse />} right={<EducationSection />} />

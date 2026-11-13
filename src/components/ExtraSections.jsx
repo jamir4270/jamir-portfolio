@@ -3,22 +3,22 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Mail } from 'lucide-react'
 import { GithubIcon, LinkedinIcon } from './BrandIcons'
 import { thesis, recommendations, socials, gallery } from '../data/portfolio'
-import { DUR, EASE } from './motion'
+import { DUR, EASE, SPRING } from './motion'
 import { Lightbox, Magnetic, Spotlight, ViewAll } from './UI'
 
 export function ThesisSection() {
   const reduce = useReducedMotion()
   return (
-    <section id="thesis" className="mb-10 scroll-mt-8">
-      <h2 className="mb-4 text-[10px] font-bold uppercase tracking-[0.12em] text-navy">Thesis</h2>
+    <section id="thesis" className="mb-10 scroll-mt-24">
+      <h2 className="mb-4 text-xs font-bold uppercase tracking-[0.12em] text-navy">Thesis</h2>
       <Spotlight className="overflow-hidden rounded-sm border border-navy/40 bg-gradient-to-b from-[#0a1a6b] to-navy shadow-[0_18px_55px_rgba(3,4,94,0.3),inset_0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-xl transition-shadow duration-500 hover:shadow-[0_24px_70px_rgba(3,4,94,0.42),inset_0_1px_0_rgba(255,255,255,0.3)]">
         <div className="relative p-6">
           <span aria-hidden="true" className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
           {!reduce && <span aria-hidden="true" className="thesis-sheen" />}
-          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">Thesis</span>
-          <h3 className="mb-2 mt-3 text-sm font-semibold leading-snug text-white">{thesis.title}</h3>
-          <p className="mb-4 text-xs leading-relaxed text-slate-300">{thesis.description}</p>
-          <span className="inline-flex items-center gap-1.5 rounded-sm border border-white/25 bg-white/10 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-white">
+          <span className="text-xs font-bold uppercase tracking-[0.12em] text-slate-300">Thesis</span>
+          <h3 className="mb-2 mt-3 text-base font-semibold leading-snug text-white">{thesis.title}</h3>
+          <p className="mb-4 text-sm leading-relaxed text-slate-300">{thesis.description}</p>
+          <span className="inline-flex items-center gap-1.5 rounded-sm border border-white/25 bg-white/10 px-2 py-1 text-xs font-bold uppercase tracking-[0.08em] text-white">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#48cae4] opacity-70" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#48cae4]" />
@@ -49,9 +49,9 @@ export function RecommendationsSection() {
     setExpanded(false)
   }
   return (
-    <section id="recommendations" className="mb-10 scroll-mt-8">
+    <section id="recommendations" className="mb-10 scroll-mt-24">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <h2 className="text-[10px] font-bold uppercase tracking-[0.12em] text-navy">Recommendations</h2>
+        <h2 className="text-xs font-bold uppercase tracking-[0.12em] text-navy">Recommendations</h2>
         {total > 1 && <ViewAll expanded={false} onToggle={() => select(0, -1)} />}
       </div>
       <div className="py-1">
@@ -63,7 +63,7 @@ export function RecommendationsSection() {
               initial={reduce ? { opacity: 0 } : { opacity: 0, x: dir >= 0 ? 24 : -24 }}
               animate={{ opacity: 1, x: 0 }}
               exit={reduce ? { opacity: 0 } : { opacity: 0, x: dir >= 0 ? -24 : 24 }}
-              transition={{ duration: DUR.short, ease: EASE }}
+              transition={SPRING}
               drag={reduce || total < 2 ? false : 'x'}
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.6}
@@ -72,9 +72,9 @@ export function RecommendationsSection() {
                 else if (info.offset.x > 50) select(index - 1, -1)
               }}
             >
-              <blockquote className="mb-2 mt-1 text-xs italic leading-relaxed text-slate-400">“{shown}”</blockquote>
+              <blockquote className="mb-2 mt-1 text-sm italic leading-relaxed text-slate-500">“{shown}”</blockquote>
               {isLong && (
-                <button onClick={() => setExpanded((v) => !v)} className="focus-ring mb-4 text-[11px] font-semibold text-aquaDark transition hover:text-navy">
+                <button onClick={() => setExpanded((v) => !v)} className="focus-ring mb-4 text-[13px] font-semibold text-aquaDark transition hover:text-navy">
                   {expanded ? 'See less' : 'See more…'}
                 </button>
               )}
@@ -85,15 +85,15 @@ export function RecommendationsSection() {
                     <img src={r.image} alt={`${r.name} photo`} className="size-8 rounded-sm object-cover transition duration-300 hover:opacity-85" loading="lazy" />
                   </a>
                 ) : (
-                  <span className="grid size-8 place-items-center rounded-sm bg-slate-400 text-[10px] font-bold text-white">{r.initials}</span>
+                  <span className="grid size-8 place-items-center rounded-sm bg-slate-400 text-xs font-bold text-white">{r.initials}</span>
                 )}
                 <span>
                   {r.linkedin ? (
-                    <a href={r.linkedin} target="_blank" rel="noreferrer" className="focus-ring block rounded-sm text-sm font-semibold text-slate-500 transition hover:text-navy hover:underline">{r.name}</a>
+                    <a href={r.linkedin} target="_blank" rel="noreferrer" className="focus-ring block rounded-sm text-base font-semibold text-slate-500 transition hover:text-navy hover:underline">{r.name}</a>
                   ) : (
-                    <span className="block text-sm font-semibold text-slate-500">{r.name}</span>
+                    <span className="block text-base font-semibold text-slate-500">{r.name}</span>
                   )}
-                  <span className="block text-xs text-slate-400">{r.title}</span>
+                  <span className="block text-sm text-slate-500">{r.title}</span>
                 </span>
               </figcaption>
             </motion.figure>
@@ -112,10 +112,10 @@ export function RecommendationsSection() {
             ))}
           </div>
           <div className="flex gap-2">
-            <button onClick={() => select(index - 1, -1)} aria-label="Previous recommendation" className="focus-ring grid size-7 place-items-center rounded-sm border border-slate-200 bg-white/60 text-navy transition-all duration-300 ease-out hover:bg-navy hover:text-white active:scale-95">
+            <button onClick={() => select(index - 1, -1)} aria-label="Previous recommendation" className="focus-ring grid size-10 place-items-center rounded-sm border border-slate-200 bg-white/60 text-navy transition-all duration-300 ease-out hover:bg-navy hover:text-white active:scale-95">
               <ArrowLeft size={14} />
             </button>
-            <button onClick={() => select(index + 1, 1)} aria-label="Next recommendation" className="focus-ring grid size-7 place-items-center rounded-sm border border-slate-200 bg-white/60 text-navy transition-all duration-300 ease-out hover:bg-navy hover:text-white active:scale-95">
+            <button onClick={() => select(index + 1, 1)} aria-label="Next recommendation" className="focus-ring grid size-10 place-items-center rounded-sm border border-slate-200 bg-white/60 text-navy transition-all duration-300 ease-out hover:bg-navy hover:text-white active:scale-95">
               <ArrowRight size={14} />
             </button>
           </div>
@@ -131,13 +131,13 @@ export function SocialLinksSection() {
   const icons = { LinkedIn: LinkedinIcon, GitHub: GithubIcon, Email: Mail }
   return (
     <section className="mb-10">
-      <h2 className="mb-4 text-[10px] font-bold uppercase tracking-[0.12em] text-navy">Social Links</h2>
+      <h2 className="mb-4 text-xs font-bold uppercase tracking-[0.12em] text-navy">Social Links</h2>
       <ul className="space-y-2">
         {socials.map((s) => {
           const Icon = icons[s.label] || Mail
           return (
             <li key={s.label}>
-              <a href={s.href} className="focus-ring group flex items-center gap-2 text-xs text-[#334155] transition-all duration-300 ease-out hover:translate-x-1 hover:text-navy">
+              <a href={s.href} className="focus-ring group flex items-center gap-2 text-sm text-[#334155] transition-all duration-300 ease-out hover:translate-x-1 hover:text-navy">
                 <Icon size={16} aria-hidden="true" className="text-slate-500 transition-colors duration-300 group-hover:text-navy" />
                 {s.label}
               </a>
@@ -177,7 +177,7 @@ export function GallerySection() {
   const current = zoomed === null ? null : gallery[zoomed]
   return (
     <section className="mb-10">
-      <h2 className="mb-4 text-[10px] font-bold uppercase tracking-[0.12em] text-navy">Gallery</h2>
+      <h2 className="mb-4 text-xs font-bold uppercase tracking-[0.12em] text-navy">Gallery</h2>
       <div className="group relative">
         <div ref={trackRef} className="scrollbar-hide gallery-mask flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1">
           {gallery.map((g, i) => (
@@ -187,10 +187,12 @@ export function GallerySection() {
               className="focus-ring group/card relative h-[150px] w-[240px] shrink-0 snap-start overflow-hidden rounded-sm border border-white/60 bg-white/50 transition-all duration-500 ease-out hover:-translate-y-[2px] hover:shadow-[0_16px_40px_rgba(0,150,199,0.25)]"
               aria-label={`Enlarge ${g.title}`}
             >
-              <img src={g.image} alt={g.title} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover/card:scale-[1.05]" />
+              <span className="block h-full w-full transition-transform duration-500 ease-out group-hover/card:scale-[1.05]">
+                <motion.img layoutId={`photo-${g.image}`} src={g.image} alt={g.title} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+              </span>
               <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/85 to-transparent px-2.5 pb-1.5 pt-6 text-left">
-                <span className="block text-[11px] font-semibold text-white">{g.title}</span>
-                {g.hint && <span className="block text-[10px] text-slate-200">{g.hint}</span>}
+                <span className="block text-[13px] font-semibold text-white">{g.title}</span>
+                {g.hint && <span className="block text-xs text-slate-200">{g.hint}</span>}
               </span>
             </button>
           ))}
@@ -219,8 +221,9 @@ export function GallerySection() {
             alt={current.title}
             title={current.title}
             subtitle={current.hint}
-            position={gallery.length > 1 ? `${zoomed + 1} / ${gallery.length}` : undefined}
+            position={gallery.length > 1 ? `${zoomed + 1} of ${gallery.length}` : undefined}
             direction={dir}
+            layoutId={`photo-${current.image}`}
             onClose={() => setZoomed(null)}
             onPrev={gallery.length > 1 ? () => step(-1) : undefined}
             onNext={gallery.length > 1 ? () => step(1) : undefined}

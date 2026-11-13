@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion, useSpring } from 'framer-motion'
-import { ArrowRight, BadgeCheck, Download, Expand, Mail, MapPin } from 'lucide-react'
+import { ArrowRight, Download, Expand, Mail, MapPin } from 'lucide-react'
 import { GlassButton, Lightbox, Magnetic } from './UI'
-import { EASE } from './motion'
+import { SPRING } from './motion'
 import { profile, aboutLong } from '../data/portfolio'
 
 function TiltPhoto({ onZoom }) {
@@ -19,9 +19,9 @@ function TiltPhoto({ onZoom }) {
     <motion.button
       ref={ref}
       onClick={onZoom}
-      initial={reduce ? false : { opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
-      animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-      transition={{ duration: 0.7, ease: EASE }}
+      initial={reduce ? false : { opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={SPRING}
       style={disabled ? undefined : { rotateX: rx, rotateY: ry, transformPerspective: 700 }}
       onMouseMove={(e) => {
         if (disabled || !ref.current) return
@@ -41,11 +41,9 @@ function TiltPhoto({ onZoom }) {
       className="focus-ring glass group relative aspect-[4/5] w-28 shrink-0 overflow-hidden rounded-sm shadow-sm transition-shadow duration-500 hover:shadow-[0_18px_44px_rgba(0,150,199,0.28)] sm:w-32 md:w-36"
       aria-label={`Enlarge photo of ${profile.name}`}
     >
-      <img
-        src={profile.photo}
-        alt={`${profile.name} portrait`}
-        className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-      />
+      <span className="block h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.04]">
+        <motion.img layoutId="photo-portrait" src={profile.photo} alt={`${profile.name} portrait`} className="h-full w-full object-cover" />
+      </span>
       <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 transition-opacity duration-300"
@@ -54,7 +52,7 @@ function TiltPhoto({ onZoom }) {
           background: `radial-gradient(220px circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,0.35), transparent 65%)`,
         }}
       />
-      <span className="absolute inset-x-0 bottom-0 flex translate-y-1 items-center justify-center gap-1 bg-gradient-to-t from-navy/70 to-transparent pb-1.5 pt-5 text-[10px] font-semibold text-white opacity-0 backdrop-blur-[2px] transition-all delay-150 duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+      <span className="absolute inset-x-0 bottom-0 flex translate-y-1 items-center justify-center gap-1 bg-gradient-to-t from-navy/70 to-transparent pb-1.5 pt-5 text-xs font-semibold text-white opacity-0 backdrop-blur-[2px] transition-all delay-150 duration-300 group-hover:translate-y-0 group-hover:opacity-100">
         <Expand size={11} aria-hidden="true" />
         Enlarge
       </span>
@@ -67,15 +65,15 @@ const container = {
   show: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
 }
 const item = {
-  hidden: { opacity: 0, y: 24, filter: 'blur(6px)' },
-  show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.7, ease: EASE } },
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: SPRING },
 }
 
 export function HeroBlock() {
   const [zoomed, setZoomed] = useState(false)
   const reduce = useReducedMotion()
   return (
-    <section id="about" className="mb-10 scroll-mt-8 pt-10">
+    <section id="about" className="mb-10 scroll-mt-24 pt-10">
       <div className="flex flex-col gap-6 md:flex-row md:items-start">
         <TiltPhoto onZoom={() => setZoomed(true)} />
         <motion.div
@@ -85,16 +83,15 @@ export function HeroBlock() {
           animate="show"
         >
           <motion.div variants={item} className="mb-1 flex items-start justify-between gap-3">
-            <h1 className="hero-title flex items-center gap-1.5 text-xl font-bold leading-tight tracking-tight text-navy sm:text-2xl">
+            <h1 className="hero-title flex items-center gap-1.5 text-2xl font-bold leading-tight tracking-tight text-navy sm:text-[1.75rem]">
               {profile.name}
-              <BadgeCheck size={18} className="shrink-0 text-[#0096c7]" aria-label="Verified" />
             </h1>
           </motion.div>
-          <motion.p variants={item} className="mb-3 flex items-center gap-1.5 text-[11px] text-slate-500 sm:text-xs">
-            <MapPin size={12} className="text-slate-400" aria-hidden="true" />
+          <motion.p variants={item} className="mb-3 flex items-center gap-1.5 text-[13px] text-slate-500 sm:text-sm">
+            <MapPin size={12} className="text-slate-500" aria-hidden="true" />
             {profile.location}
           </motion.p>
-          <motion.p variants={item} className="mb-3 text-xs text-slate-600 sm:text-sm">{profile.roles.split(' / ').join('  /  ')}</motion.p>
+          <motion.p variants={item} className="mb-3 text-sm text-slate-600 sm:text-base">{profile.roles.split(' / ').join('  /  ')}</motion.p>
           <motion.div variants={item} className="flex flex-col justify-between gap-2 md:flex-row md:items-end">
             <div className="flex flex-wrap gap-2">
               <Magnetic strength={16}>
@@ -112,6 +109,7 @@ export function HeroBlock() {
             alt={`${profile.name} portrait`}
             title={profile.name}
             subtitle={profile.location}
+            layoutId="photo-portrait"
             onClose={() => setZoomed(false)}
           />
         )}
@@ -124,8 +122,8 @@ export function HeroBlock() {
 export function AboutProse() {
   return (
     <section aria-label="About">
-      <h2 className="mb-4 text-[10px] font-bold uppercase tracking-[0.12em] text-navy">About</h2>
-      <div className="space-y-3 text-sm leading-relaxed text-slate-600">
+      <h2 className="mb-4 text-xs font-bold uppercase tracking-[0.12em] text-navy">About</h2>
+      <div className="space-y-3 text-base leading-relaxed text-slate-600">
         {aboutLong.map((para, pi) => (
           <p key={pi}>
             {para.map(([text, style], si) => {

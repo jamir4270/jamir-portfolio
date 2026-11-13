@@ -51,37 +51,37 @@ export default function ContactSection() {
   }
 
   const inputCls =
-    'focus-ring w-full rounded-sm border border-white/90 bg-white/75 px-3 py-2.5 text-xs text-slate-900 outline-none transition focus:border-[#48cae4] focus:bg-white focus:shadow-[0_0_0_3px_rgba(72,202,228,0.24)] placeholder:text-slate-400'
+    'focus-ring w-full rounded-sm border border-white/90 bg-white/75 px-3 py-2.5 text-base text-slate-900 outline-none transition focus:border-[#48cae4] focus:bg-white focus:shadow-[0_0_0_3px_rgba(72,202,228,0.24)] placeholder:text-slate-500'
 
   return (
-    <section id="contact" className="mb-10 scroll-mt-8">
-      <h2 className="mb-4 text-[10px] font-bold uppercase tracking-[0.12em] text-navy">Contact</h2>
+    <section id="contact" className="mb-10 scroll-mt-24">
+      <h2 className="mb-4 text-xs font-bold uppercase tracking-[0.12em] text-navy">Contact</h2>
       <div className="grid gap-8 md:grid-cols-2">
         <div className="space-y-1.5">
           <GlassRow className="flex items-center gap-3">
             <Mail size={14} className="shrink-0 text-[#0096c7]" aria-hidden="true" />
             <span>
-              <span className="block text-xs font-semibold text-cardInk">Email</span>
-              <a href={`mailto:${EMAIL}`} className="text-xs text-slate-500 hover:text-navy hover:underline">{EMAIL}</a>
+              <span className="block text-sm font-semibold text-cardInk">Email</span>
+              <a href={`mailto:${EMAIL}`} className="text-sm text-slate-500 hover:text-navy hover:underline">{EMAIL}</a>
             </span>
           </GlassRow>
           <GlassRow className="flex items-center gap-3">
             <Phone size={14} className="shrink-0 text-[#0096c7]" aria-hidden="true" />
             <span>
-              <span className="block text-xs font-semibold text-cardInk">Phone</span>
-              <span className="text-xs text-slate-500">0951-035-1575</span>
+              <span className="block text-sm font-semibold text-cardInk">Phone</span>
+              <span className="text-sm text-slate-500">0951-035-1575</span>
             </span>
           </GlassRow>
           <GlassRow className="flex items-center gap-3">
             <MapPin size={14} className="shrink-0 text-[#0096c7]" aria-hidden="true" />
             <span>
-              <span className="block text-xs font-semibold text-cardInk">Location</span>
-              <span className="text-xs text-slate-500">Brgy. Naungan, Ormoc City, Leyte</span>
+              <span className="block text-sm font-semibold text-cardInk">Location</span>
+              <span className="text-sm text-slate-500">Brgy. Naungan, Ormoc City, Leyte</span>
             </span>
           </GlassRow>
           <button
             onClick={copyEmail}
-            className="focus-ring glass mt-2 inline-flex items-center gap-2 rounded-sm border border-white/80 px-2.5 py-1.5 text-[11px] font-semibold text-[#17304f] transition hover:-translate-y-px hover:bg-white/90"
+            className="focus-ring glass mt-2 inline-flex items-center gap-2 rounded-sm border border-white/80 px-2.5 py-1.5 text-[13px] font-semibold text-[#17304f] transition hover:-translate-y-px hover:bg-white/90"
           >
             {copied ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
             {copied ? 'Copied to clipboard' : 'Copy email'}
@@ -107,9 +107,9 @@ export default function ContactSection() {
               >
                 <Check size={20} />
               </motion.span>
-              <h3 className="mt-3 text-sm font-semibold text-navy">Message sent</h3>
-              <p className="mt-2 max-w-sm text-xs leading-6 text-slate-600">Thanks {form.name ? `${form.name},` : ''} — your message is on its way. I&rsquo;ll reply to you shortly at {form.email || EMAIL}.</p>
-              <button onClick={() => { setStatus('idle'); setForm({ name: '', email: '', message: '' }) }} className="focus-ring mt-4 text-xs font-semibold text-aquaDark transition hover:text-navy">Write another →</button>
+              <h3 className="mt-3 text-base font-semibold text-navy">Message sent</h3>
+              <p className="mt-2 max-w-sm text-sm leading-6 text-slate-600">Thanks {form.name ? `${form.name},` : ''} — your message is on its way. I&rsquo;ll reply to you shortly at {form.email || EMAIL}.</p>
+              <button onClick={() => { setStatus('idle'); setForm({ name: '', email: '', message: '' }) }} className="focus-ring mt-4 text-sm font-semibold text-aquaDark transition hover:text-navy">Write another →</button>
             </motion.div>
           ) : (
             <motion.form
@@ -124,20 +124,20 @@ export default function ContactSection() {
             >
               <div className="grid gap-3 sm:grid-cols-2">
                 <label className="block">
-                  <span className="mb-1.5 block text-[11px] font-semibold text-[#24364f]">Name</span>
+                  <span className="mb-1.5 block text-[13px] font-semibold text-[#24364f]">Name</span>
                   <input className={inputCls} placeholder="Your name" name="name" required value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
                 </label>
                 <label className="block">
-                  <span className="mb-1.5 block text-[11px] font-semibold text-[#24364f]">Email</span>
+                  <span className="mb-1.5 block text-[13px] font-semibold text-[#24364f]">Email</span>
                   <input type="email" className={inputCls} placeholder="you@example.com" name="email" required value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
                 </label>
               </div>
               <label className="block">
-                <span className="mb-1.5 block text-[11px] font-semibold text-[#24364f]">Message</span>
+                <span className="mb-1.5 block text-[13px] font-semibold text-[#24364f]">Message</span>
                 <textarea rows="4" className={`${inputCls} resize-y`} placeholder="Tell me about the project or opportunity." name="message" required value={form.message} onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))} />
               </label>
               {status === 'error' && (
-                <p className="text-xs leading-5 text-red-600">
+                <p className="text-sm leading-5 text-red-600">
                   {error}{' '}
                   <a href={`mailto:${EMAIL}`} className="font-semibold underline hover:text-navy">{EMAIL}</a>
                 </p>

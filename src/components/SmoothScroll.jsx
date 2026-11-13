@@ -25,7 +25,7 @@ export default function SmoothScroll() {
       const el = document.querySelector(id)
       if (!el) return
       e.preventDefault()
-      lenis.scrollTo(el, { offset: -24 })
+      lenis.scrollTo(el) // Lenis honours the section's scroll-margin-top, which clears the sticky bar
     }
     document.addEventListener('click', onClick)
 

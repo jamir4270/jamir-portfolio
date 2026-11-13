@@ -2,8 +2,8 @@ import { experience } from '../data/portfolio'
 
 export default function ExperienceSection() {
   return (
-    <section id="experience" className="mb-10 scroll-mt-8">
-      <h2 className="mb-4 text-[10px] font-bold uppercase tracking-[0.12em] text-navy">Experience</h2>
+    <section id="experience" className="mb-10 scroll-mt-24">
+      <h2 className="mb-4 text-xs font-bold uppercase tracking-[0.12em] text-navy">Experience</h2>
       <ol className="space-y-5">
         {experience.map((item, i) => (
           <li key={`${item.role}-${item.year}`} className="group relative pl-4">
@@ -15,10 +15,10 @@ export default function ExperienceSection() {
             />
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <h3 className="text-sm font-semibold text-cardInk transition group-hover:text-navy">{item.role}</h3>
-                <p className="mt-0.5 text-xs text-slate-500">{item.org}</p>
+                <h3 className="text-base font-semibold text-cardInk transition group-hover:text-navy">{item.role}</h3>
+                <p className="mt-0.5 text-sm text-slate-500">{item.org}</p>
               </div>
-              <span className="glass shrink-0 rounded border border-white/80 px-2 py-1 text-[10px] font-semibold text-[#23506a]">{item.year}</span>
+              <span className="glass shrink-0 rounded border border-white/80 px-2 py-1 text-xs font-semibold text-[#23506a]">{item.year}</span>
             </div>
           </li>
         ))}

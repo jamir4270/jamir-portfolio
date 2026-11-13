@@ -32,7 +32,7 @@ export default function Sidebar({ activeId: activeProp }) {
         </AnimatePresence>
         <div className="mt-6">
           <div className="text-[1.5rem] font-semibold leading-tight tracking-[-0.03em] text-navy">Jamir Oasis<br />M. Andrade</div>
-          <div className="mt-2 text-sm font-semibold text-[#17304f]">Full-Stack Developer · Technical Lead</div>
+          <div className="mt-2 text-base font-semibold text-[#17304f]">Full-Stack Developer · Technical Lead</div>
           <p className="mt-3 text-[0.86rem] leading-6 text-slate-600">DOST Scholar and CS student building scalable web and mobile software — backend engineering, team workflows, AI-assisted delivery.</p>
         </div>
       </div>
@@ -40,12 +40,12 @@ export default function Sidebar({ activeId: activeProp }) {
       <div className="my-6 h-px shrink-0 bg-white/80" />
 
       <div className="mb-8 py-1">
-        <div className="mb-3 px-4 text-xs font-bold uppercase tracking-[0.18em] text-aquaDark">Explore</div>
+        <div className="mb-3 px-4 text-sm font-bold uppercase tracking-[0.18em] text-aquaDark">Explore</div>
         <Navigation activeId={activeId} />
       </div>
 
       <div className="mt-auto shrink-0 border-t border-white/70 pt-6">
-        <div className="text-xs font-bold uppercase tracking-[0.18em] text-aquaDark">Connect</div>
+        <div className="text-sm font-bold uppercase tracking-[0.18em] text-aquaDark">Connect</div>
         <div className="mt-3 flex gap-2">
           {socials.map((s) => {
             const Icon = socialIcons[s.label] || Mail

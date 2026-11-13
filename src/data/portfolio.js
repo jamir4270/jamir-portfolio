@@ -24,13 +24,12 @@ export const aboutLong = [
 ]
 
 export const navItems = [
+  // One item per row of the two-column layout; each anchor is the row's first section.
   ['About', '#about'],
-  ['Stack', '#stack'],
+  ['Experience', '#stack'],
   ['Work', '#projects'],
-  ['Education', '#education'],
-  ['Experience', '#experience'],
-  ['Thesis', '#thesis'],
   ['Leadership', '#leadership'],
+  ['Honors', '#certifications'],
   ['Contact', '#contact'],
 ]
 
