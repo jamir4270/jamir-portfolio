@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  // hover styles only on devices that can hover, so taps on iPhone never leave cards stuck lifted
+  future: { hoverOnlyWhenSupported: true },
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
